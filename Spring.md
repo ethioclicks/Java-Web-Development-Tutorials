@@ -91,3 +91,43 @@ public class Application {
 #### Out put
 ![image](screenshots/spring-screenshots/4-output.PNG)
 
+### adding another implementation for mock H2 DB
+import java.util.ArrayList;
+import java.util.List;
+
+public class H2Repository implements MockRepository {
+    private ArrayList<Speaker> speakers;
+
+    H2Repository() {
+        speakers = new ArrayList<Speaker>();
+        Speaker speaker = new Speaker();
+        speaker.setFirstName("Alemu from h2");
+        speaker.setLastName("Kebede from h2");
+        speakers.add(speaker);
+    }
+
+    public List<Speaker> getSpeakers() {
+        return speakers;
+    }
+}
+
+### run the app again and will get another result
+
+public class Application {
+    public static void main(String[] args) {
+        MockRepository repository = new H2Repository();
+        System.out.println("Size: " + repository.getSpeakers().size());
+        System.out.println("First name: " + repository.getSpeakers().get(0).getFirstName());
+    }
+}
+
+
+
+#### Out put
+This time it is using H2 Repository.
+![image](screenshots/spring-screenshots/5-output.PNG)
+
+
+
+
+
