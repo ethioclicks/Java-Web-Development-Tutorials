@@ -127,7 +127,22 @@ public class Application {
 This time it is using H2 Repository.
 ![image](screenshots/spring-screenshots/5-output.PNG)
 
+So far when we want to add new implementation, we should modify the code so that it will use the new implementation. One of the advantages of spring is it allow us to configure the application and based on our configuration it will use the dependency needed. 
 
+Next>>>>>>>>>>>>>>>>> using spring for dependency injection
+###add dependency
+In order to use spring we need to add spring library to our project. We can manually download the jar and add it to our class path or we can us maven for downloading and adding it to our class path. Lets do that on the next section
+Add the following dependency in to your pom.xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>5.3.14</version>
+    </dependency>
+</dependencies>
+
+### maven install
+![image](screenshots/spring-screenshots/6-maveninstall.PNG)
 
 
 
