@@ -129,14 +129,22 @@ This time it is using H2 Repository.
 
 So far when we want to add new implementation, we should modify the code so that it will use the new implementation. One of the advantages of spring is it allow us to configure the application and based on our configuration it will use the dependency needed. 
 
+Let’s do that on the next section
+
 Next>>>>>>>>>>>>>>>>> using spring for dependency injection
-###add dependency
-In order to use spring we need to add spring library to our project. We can manually download the jar and add it to our class path or we can us maven for downloading and adding it to our class path. Lets do that on the next section
+
+##Spring configuration
+
+###adding spring dependency
+Note: you can use existing project for this tutorial or you can copy and rename it to new project name to use for this section demo. We are using new project name called “confrenceapp-java”
+
+In order to use spring in our project, we need to add spring library to our project. One way of adding spring in our project is we can manually download the jar and add it to our class path, or we can us maven for downloading and adding it to our class path. 
 Add the following dependency in to your pom.xml
+
 <dependencies>
     <dependency>
         <groupId>org.springframework</groupId>
-        <artifactId>spring-core</artifactId>
+        <artifactId>spring-context</artifactId>
         <version>5.3.14</version>
     </dependency>
 </dependencies>
@@ -144,5 +152,286 @@ Add the following dependency in to your pom.xml
 ### maven install
 ![image](screenshots/spring-screenshots/6-maveninstall.PNG)
 
+
+
+### Java based spring configuration
+#### Creating a bean
+Lets add a class for spring configuration as follows
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MySpringConfig {
+
+    @Bean
+    MockRepository getRepository() {
+        return new H2Repository();
+    }
+
+}
+
+lets modify our application class to use new configuration that spring will manage and create an object for us instead of we create an object.
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Application {
+    public static void main(String[] args) {
+//         old way of creating an object
+//        MockRepository repository = new H2Repository(); 
+        
+//        spring create an obejct for us
+        ApplicationContext context = new AnnotationConfigApplicationContext(MySpringConfig.class);
+        MockRepository repository = (MockRepository) context.getBean("getRepository");// we are telling spring which bean to use
+        System.out.println("Size: " + repository.getSpeakers().size());
+        System.out.println("First name: " + repository.getSpeakers().get(0).getFirstName());
+    }
+}
+
+we should be able to get the same result as it was before. 
+We can use custom name and we can use that name for instantiating an object as follows.
+
+@Bean(name = "myRepository")// we can use custom name
+MockRepository getRepository() {
+
+
+ApplicationContext context = new AnnotationConfigApplicationContext(MySpringConfig.class);
+MockRepository repository = (MockRepository) context.getBean("myRepository");
+
+
+### let recap what we have done on this module
+In this section we have used spring to create and manage object for us based on the configuration we provided. This allow us to inject the dependency and specify how the object should be created rather than we created it ourselves. One of the advantages of this is we can use configuration to inject different behaviors. Lets do some modification on configuration and let see the effect.
+
+Change the configuration 
+
+Old configuration:
+@Configuration
+public class MySpringConfig {
+
+    @Bean(name = "myRepository")// we can use custom name
+    MockRepository getRepository() {
+        return new H2Repository();
+    }
+
+}
+
+New configuration:
+
+@Configuration
+public class MySpringConfig {
+
+    @Bean(name = "myRepository")// we can use custom name
+    MockRepository getRepository() {
+        return new HibernateRepository();
+    }
+
+}
+
+Due to our changes the output changed to:
+Old output:
+
+Size: 1
+First name: Alemu from h2
+
+New output:
+Size: 1
+First name: Alemu
+
+This way we can change the configuration and alter the behavior of the application by injecting different behaviors.
+
+### There are different way of injecting a dependency in spring such as
+- Setter based injection
+- Constructor base injection  
+As the names indicates setter based injection, inject the dependency using setter method and constructor base injection injects the dependency using constructor. Let see some examples
+#### Setter injection
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MySpringConfig {
+
+    MockRepository mockRepository;
+
+    public void setMockRepository(MockRepository mockRepository) {
+        this.mockRepository = mockRepository;
+    }
+
+    @Bean(name = "myRepository")//We can use custom name
+    MockRepository getRepository() {
+        this.setMockRepository(new H2Repository());
+        return this.mockRepository;
+    }
+
+}
+
+#### Constructor injection
+ 
+To demonstrate constructor-based injection let’s create some classes.
+
+public class Engine {
+    private int cylinders;
+    private String model;
+
+    public Engine(String model, int cylinders) {
+        this.model = model;
+        this.cylinders = cylinders;
+    }
+
+    public int getCylinders() {
+        return cylinders;
+    }
+
+    public String getModel() {
+        return model;
+    }
+}
+
+public class Transmission {
+    private String type;
+
+    public Transmission(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+}
+
+let’s create a car class which requires the above two classes to be constructed.
+public class Car {
+
+    private Engine engine;
+    private Transmission transmission;
+
+    public Car(Engine engine, Transmission transmission) {
+        this.engine = engine;
+        this.transmission = transmission;
+    }
+
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public Transmission getTransmission() {
+        return transmission;
+    }
+}
+
+now lets use Engine and Transmission beans in the configuration to construct Car bean.
+
+@Bean
+public Engine engine() {
+    return new Engine("v8", 5);
+}
+
+@Bean
+public Transmission transmission() {
+    return new Transmission("sliding");
+}
+
+@Bean(name = "car")
+public Car getCar() {
+    return new Car(engine(),transmission());
+}
+
+Then lets use this class as follows: 
+
+Car car = context.getBean("car", Car.class);
+System.out.println("number of cylinders:"+car.getEngine().getCylinders());
+System.out.println("transmission type:"+car.getTransmission().getType());
+
+The out put will be as follows:
+number of cylinders:5
+transmission type:sliding
+
+
+### Scops in spring
+#### Singleton
+The default scop of spring object creation is singleton which means always it give us the same object when we ask spring to create for us. Lets demonstrate by creating two object and changing value on the first object after the creation and lets check if the second object get the modified version or the original version.
+
+ApplicationContext context = new AnnotationConfigApplicationContext(MySpringConfig.class);
+MockRepository repository = (MockRepository) context.getBean("myRepository");
+repository.getSpeakers().get(0).setFirstName("Alemnesh");
+
+MockRepository repository2 = (MockRepository) context.getBean("myRepository");
+System.out.println("Size: " + repository2.getSpeakers().size());
+System.out.println("First name: " + repository2.getSpeakers().get(0).getFirstName());
+
+The out put is:
+Size: 1
+First name: Alemnesh
+
+The output shows that our change after spring created the object for us is reflected when spring created an object of us for the second time. 
+
+#### Prototype
+If we want to get new object always when we created an object we need to modify the scop of our bean as follows:
+
+@Bean(name = "myRepository")//We can use custom name
+@Scope(value = "prototype")
+MockRepository getRepository() {
+    return new H2Repository();
+}
+
+And lets run the same code and let see the output.
+Output:
+Size: 1
+First name: Alemu from h2
+
+This time we don’t see our changes we made after spring created an object for us. This shows that we are getting a new object.
+
+#### web scops
+In addition to Singleton and Prototype we have request session, session and application scop that we can use it on we application
+
+### Autwiring
+Auto wiring is another way of creating a bean in spring. In order to use auto wiring we need to annotate the class using stereo types to inject/create a bean. There are different types of stereo types such as 
+- @Component
+- @Service
+- @Repository
+- @Component
+For example, I can use @Component as follows:
+
+@Component(value = "h2Repository")
+public class H2Repository implements MockRepository {
+
+And we can use autwiring
+@Configuration
+@ComponentScan("com")
+public class MySpringConfig {
+
+    @Autowired
+    MockRepository mockRepository;
+
+}
+
+It is important to do component scan to find the classes annotated as a component and spring create bean for us. If there are multiple implementations of the interface spring will confuse which implementation of the interface to use for object creation. One way to tell speirng which implementation to use is to spacify the type as followes
+@Configuration
+@ComponentScan("com")
+public class MySpringConfig {
+
+    @Autowired
+    MockRepository h2Repository;
+
+}
+Or
+@Configuration
+@ComponentScan("com")
+public class MySpringConfig {
+
+    @Autowired
+    MockRepository hibernateRepository;
+
+}
+Spring will create appropriate object based on type or we can use @Qualifier annotation as follows:
+@Configuration
+@ComponentScan("com")
+public class MySpringConfig {
+
+    @Autowired
+    @Qualifier(value = "h2Repository")
+    MockRepository mockRepository;
+
+}
 
 
