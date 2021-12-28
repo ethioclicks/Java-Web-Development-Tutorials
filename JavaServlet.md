@@ -5,37 +5,37 @@ There are lots of IDEs that can be used for the development of Java programs. Ec
 We will see how we can download and install eclipse on our computers step by step.The first phase is to download Eclipse from the Eclipse download page. To download eclipse we will follow these steps.
 
 *	Go to a search engine and search for eclipse download. ( or follow this link [Eclipse Download](https://www.eclipse.org/downloads/ "Download Here") ).
-![image](screenshots/step_1.png)
+![image](screenshots/Java_Servlet/step_1.png)
 
 * Click the first link and you will be presented a page to download Eclipse IDE . Click on “download packages”.
-![image](screenshots/step_2.png)
+![image](screenshots/Java_Servlet/step_2.png)
 
 * You will have multiple eclipse software options to choose from for the development of various applications with different programming languages. Our interest is web development using java and the software we need for that is [Eclipse IDE for Enterprise Java and Web Developers](https://www.eclipse.org/downloads/packages/release/2021-12/r/eclipse-ide-enterprise-java-and-web-developers). This software is equipped with Tools for developers working with Java and Web applications, including a Java IDE, tools for JavaScript, TypeScript, Java Server Pages and Faces, Yaml, Markdown, Web Services, JPA and Data Tools, Maven and Gradle, Git, and more. 
     * Choose the appropriate software for your operating system and proceed. We will continue with windows operating system.
-![image](screenshots/step_3.png)
+![image](screenshots/Java_Servlet/step_3.png)
 
 * We will proceed by clicking "download" and our download will start automatically.
-![image](screenshots/step_4.png)
+![image](screenshots/Java_Servlet/step_4.png)
 
 * After the download is completed, we will go to our download folder and extract the eclipse zip file.
 
     * We click into the extracted folder and start eclipse by double clicking on the eclipse application file.
-    ![image](screenshots/step_5.png)
+    ![image](screenshots/Java_Servlet/step_5.png)
 
 * We will select our workspace and Eclipse IDE will launch after we click the launch button.
-![image](screenshots/step_6.png)
+![image](screenshots/Java_Servlet/step_6.png)
 
 * We have successfully installed eclipse IDE on our system and we can proceed to develop enterprise systems on it.
-![image](screenshots/step_7.png)
+![image](screenshots/Java_Servlet/step_7.png)
 
  ### **Your First Program** 
 * Create a new project called "Testing".
-![image](screenshots/create_new_java.png)
-![image](screenshots/project_name.png)
+![image](screenshots/Java_Servlet/create_new_java.png)
+![image](screenshots/Java_Servlet/project_name.png)
 * Then create a java class called JavaTesting  
     * Right click on your project -> new -> class
-    ![image](screenshots/create_class.png)
-    ![image](screenshots/name_class.png)
+    ![image](screenshots/Java_Servlet/create_class.png)
+    ![image](screenshots/Java_Servlet/name_class.png)
 
  proceed to write the following code.
 
@@ -57,33 +57,33 @@ Apache Tomcat is a Java Servlet container, or web container, that provides the e
 
 The following steps can be followed to download and run Apache Tomcat on Eclipse IDE.
 * Go to a search engine and search for apache tomcat download. ( or follow this link [Apache Tomcat Download](https://www.eclipse.org/downloads/ "Download Here") ).
-![image](screenshots/apache_1.png)
+![image](screenshots/Java_Servlet/apache_1.png)
 * Choose the appropriate version and package for your system.
     * When choosing the tomcat version keep in mind that the latest version might not be stable and it might be in the alpha or beta testing phase so it is recommended to choose a stable version. It will be mentioned on the web page if the version is in a testing phase.
     * For the package choose the file that is compatible with your operating system. we will continue with tomcat 9. You can choose the zip file if your  of operating system is windows or Mac. If your OS is linux you can choose the tar file.
-![image](screenshots/apache_2.png)
+![image](screenshots/Java_Servlet/apache_2.png)
 
 * After we click on the tomcat package the download will start and a zip file will be downloaded in our default download folder. We will extract the package.
-![image](screenshots/apache_3.png)
+![image](screenshots/Java_Servlet/apache_3.png)
 
 * Next we will configure the tomcat server on eclipse. We will open our eclipse software we downloaded earlier. 
 * We will look for a tab called Server in the system menu. Sometimes the server tab is not visible in the menu.
- ![image](screenshots/system_menu.png)
+ ![image](screenshots/Java_Servlet/system_menu.png)
  * To include the server tab we will click on 
  Windows -> show view -> other and search for Server
- ![image](screenshots/show_view.png)
- ![image](screenshots/server.png)
+ ![image](screenshots/Java_Servlet/show_view.png)
+ ![image](screenshots/Java_Servlet/server.png)
 
  * After that we can see the server tab in the system menu. we will proceed by clicking on it and following the link under.
- ![image](screenshots/apache_4.png)
+ ![image](screenshots/Java_Servlet/apache_4.png)
 
  * We will choose the tomcat version and click on next
- ![image](screenshots/apache_5.png)
+ ![image](screenshots/Java_Servlet/apache_5.png)
  * We must specify the location of of our server so we browse to the place where we extracted our tomcat package.
- ![image](screenshots/apache_6.png)
- ![image](screenshots/apache_7.png)
+ ![image](screenshots/Java_Servlet/apache_6.png)
+ ![image](screenshots/Java_Servlet/apache_7.png)
  * Click on select folder then Finish. Now we can see our tomcat is configured when we open our server tab.
- ![image](screenshots/apache_8.png)
+ ![image](screenshots/Java_Servlet/apache_8.png)
 
  * We can use our server to run our web applications. Make sure the port number is not being used by another application. By default, Apache Tomcat runs on port 8080.
 ---
@@ -166,15 +166,15 @@ public void destroy() {
 To create a servlet application you need to configure tomcat server as we did earlier. follow this steps to create a servlet application. 
 
 * Right click Project Explorer -> new -> Dynamic web page
-    ![image](screenshots/servlet_1.png)
+    ![image](screenshots/Java_Servlet/servlet_1.png)
 *  Name your project and proceed by clicking next.
-    ![image](screenshots/servlet_2.png) 
+    ![image](screenshots/Java_Servlet/servlet_2.png) 
 
 * Make sure to generate the web.xml file automatically by checking on the checkbox. Then click on Finish.
-     ![image](screenshots/servlet_3.png)
+     ![image](screenshots/Java_Servlet/servlet_3.png)
 
 * we will find our project in the Project explorer menu.
-    ![image](screenshots/servlet_4.png)    
+    ![image](screenshots/Java_Servlet/servlet_4.png)    
 
 ## web.xml
 ```xml
@@ -199,12 +199,12 @@ Let us run our project on a server and see the output. Lets follow this steps.
 
 * Right-click on our project -> Run as -> Run on server
     * Then Deploy our project to the server and click finish
-    ![image](screenshots/servlet_5.png) 
+    ![image](screenshots/Java_Servlet/servlet_5.png) 
 * An error page will show up because the application called a non existent page.
-    ![image](screenshots/servlet_6.png) 
+    ![image](screenshots/Java_Servlet/servlet_6.png) 
     * To fix this we must create an index.html as that is the file name mentioned in the deployment descriptor.
         * Right-Click on our project -> New -> HTML file
-        ![image](screenshots/servlet_7.png) 
+        ![image](screenshots/Java_Servlet/servlet_7.png) 
 
 ## index.html        
 ``` html
@@ -220,15 +220,15 @@ Let us run our project on a server and see the output. Lets follow this steps.
 </html>
 ```
 When We run our project on our server we will be presented by a working page returning our request. **(Don't forget to save your files first)**
-![image](screenshots/servlet_8.png)
+![image](screenshots/Java_Servlet/servlet_8.png)
 
 --- 
 We didn't use any Servlets until now. Remember a servlet is just a java class inheriting the HttpServlet class. The next phase is creating our Servlet. To create a servlet.
 * Right-click on our project -> New -> Servlet
     * Give a name to your Servlet and click next twice
-    ![image](screenshots/servlet_9.png)
+    ![image](screenshots/Java_Servlet/servlet_9.png)
     * You can add additional methods automatically by checking the check boxes. Finally click Finish.
-    ![image](screenshots/servlet_10.png)
+    ![image](screenshots/Java_Servlet/servlet_10.png)
 
 ## Login.java
 ```java
@@ -286,10 +286,10 @@ public class Login extends HttpServlet {
 ### The above code will be generated automatically when we click finish. But its infested with errors because the classes we are using are external classes used by the servlet frame work. To fix this we must follow the following steps.
 * Right-click on our project -> build path -> configure build path
     * Click on class path then click add external JARs.
-    ![image](screenshots/servlet_11.png)
+    ![image](screenshots/Java_Servlet/servlet_11.png)
 * Browse to the extracted tomcat server That we deployed earlier and go to the lib folder.
     * In the lib folder find "servlet-api.jar" and click on open Then apply and close.
-    ![image](screenshots/servlet_12.png)
+    ![image](screenshots/Java_Servlet/servlet_12.png)
 
 Now all the Errors are gone. Lets tweak some things to test or servlet. 
 
@@ -332,8 +332,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	}
 ```
  Now Run the the project on server. The index page will be shown as expected. but we need to see the login page to do that just add the url part at the end.
-![image](screenshots/servlet_13.png)
-![image](screenshots/servlet_14.png)
+![image](screenshots/Java_Servlet/servlet_13.png)
+![image](screenshots/Java_Servlet/servlet_14.png)
 
 ---
 
@@ -362,10 +362,10 @@ Let us update our index.html file to incorporate a form.
 </html>
 ```
 The above html code is a simple login form to send a request to the server. let us see the output when we run our index.html.
-![image](screenshots/servlet_15.png)
+![image](screenshots/Java_Servlet/servlet_15.png)
 
 Lets dive a little bit in our code
-![image](screenshots/servlet_16.png)
+![image](screenshots/Java_Servlet/servlet_16.png)
  Next we will go to login.java and update the doGet() method.
  ## Login.java
  ```java
@@ -383,9 +383,9 @@ Lets dive a little bit in our code
 	}
  ```
   Here we are getting the parameters username and  password from the form and put it on string values called username and password respectively. Then we are simply outputting the values on our web page. Let us run our project and examine our output.
-  ![image](screenshots/servlet_17.png) 
+  ![image](screenshots/Java_Servlet/servlet_17.png) 
   Fill in the form with username and password then click Submit.
-  ![image](screenshots/servlet_18.png)
+  ![image](screenshots/Java_Servlet/servlet_18.png)
 
 Note that The GET method is the default method to pass information from browser to web server and it produces a long string that appears in your browser's URl box. Never use the GET method if you have password or other sensitive information to pass to the server. 
 
@@ -429,7 +429,7 @@ Everything will be the same as in the doGet method but we need to change the met
 ```
 Notice we changed the method in our from frm get to post. Lets run our project and examine the difference between our earlier code.
 
-![image](screenshots/servlet_19.png)
+![image](screenshots/Java_Servlet/servlet_19.png)
 
 The Post method is generally more reliable method of passing information to a backend. This packages the information in exactly the same way as GET method. This message comes to the backend program in the form of the standard input which you can parse and use for your processing. Servlet handles this type of requests using doPost() method.
 ---
@@ -587,8 +587,8 @@ public class RegistrationHandler extends HttpServlet {
 </web-app>
 ```
 * Finally let us run our project and see the Result.
-![image](screenshots/servlet_20.png)
-![image](screenshots/servlet_21.png)
+![image](screenshots/Java_Servlet/servlet_20.png)
+![image](screenshots/Java_Servlet/servlet_21.png)
 ---
 # 7. How to redirect request in servlet
     Java or HTML based web applications are made by compiling multiple screens and servlets. The control of the execution process is transferred from one server to another  server using two methods, namely, forward method and redirect method.
@@ -849,7 +849,7 @@ Some difference can be noticed between our previous code where we used the forwa
 When we give send redirect actually happening is a new request from the user.It is always get. Since it is a new request we cant access the old request parameters.Remember a request to a Http or a URL link is always a Get request whether the URL is to a servlet within application or to external location.
 
 * Finally lets notice differences in the out put of our projects.
-![image](screenshots/servlet_24.png)
+![image](screenshots/Java_Servlet/servlet_24.png)
 
 * One  thing we notice is the url, it is directly redirected to the confirmation page instead of the register page like the previous out put.
 * Also The input we inserted into our form is not returned to this page. This is because the sendRedirect method is not used for that purpose and we are actually calling a new call here. That is why using GET doesn't affect the security our program because we are not actually returning data.
@@ -1049,8 +1049,8 @@ public class Confirmation extends HttpServlet {
 
 ```
 * Finally let us run our project and see the output.
-![image](screenshots/servlet_26.png)
-![image](screenshots/servlet_25.png)
+![image](screenshots/Java_Servlet/servlet_26.png)
+![image](screenshots/Java_Servlet/servlet_25.png)
 
 
 * So using sessions we can transfer persistent data using serverRedirect() method to a completely new Request which does not completely depend on the previous operation. Sessions are further implemented with databases.
