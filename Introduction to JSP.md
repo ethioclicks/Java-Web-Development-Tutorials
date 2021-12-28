@@ -430,3 +430,5 @@ Request test is Working !!!
 
 * Now  we can save all files and run the project.
 ![image](screenshots/Jsp/jsp_15.png)
+* We will be on our default page which is "implicitObj.jsp" and on that page there is a link to redirect us to the requestTest page. click on it.
+![image](screenshots/Jsp/jsp_16.png)
