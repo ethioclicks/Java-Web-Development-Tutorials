@@ -392,7 +392,27 @@ The prefix is used to distinguish the custom tag from other library custom tag. 
 
 # 5. Implicit objects
 
-JSP implicit objects are created during the translation phase of JSP to the servlet. These objects can be directly used in scriplets that goes in the service method. They are created by the container automatically, and they can be accessed using objects. JSP Implicit Objects are also called pre-defined variables.
+JSP implicit objects are created during the translation phase of JSP to the servlet. These objects can be directly used in scriplets that goes in the service method. They are created by the container automatically, and they can be accessed using objects. JSP Implicit Objects are also called pre-defined variables.JSP provide you Total 9 implicit objects which are as follows 
+
+**request:** This is the object of HttpServletRequest class associated with the request.
+
+**response:** This is the object of  HttpServletResponse class associated with the response to the client.
+
+**config:** This is the object of ServletConfig class associated with the page.
+
+**application:** This is the object of ServletContext class associated with the application context.
+
+**session:** This is the object of HttpSession class associated with the request.
+
+**page context:** This is the object of PageContext class that encapsulates the use of server-specific features. This object can be used to find, get or remove an attribute.
+
+**page object:** The manner we use the keyword this for current object, page object is used to refer to the current translated servlet class.
+
+**exception:** The exception object represents all errors and exceptions which is accessed by the respective jsp. The exception implicit object is of type java.lang.Throwable.
+
+**out:** This is the PrintWriter object where methods like print and println help for displaying the content to the client.
+
+
 * Lets create another jsp file called "implicitObj.jsp" to see implicit objects in action.
 * Lets Make it our default page in the web.xml file.
 * We also need to create another jsp file called "requestTest.jsp" to test out redirection in jsp.
@@ -432,3 +452,172 @@ Request test is Working !!!
 ![image](screenshots/Jsp/jsp_15.png)
 * We will be on our default page which is "implicitObj.jsp" and on that page there is a link to redirect us to the requestTest page. click on it.
 ![image](screenshots/Jsp/jsp_16.png)
+* We have successfully linked two jsp files together, Now we can see some implicit object implementations.
+* We can send data from one page to another using the request parameter. we can use a form to manipulate the input but we can test this parameter automatically without a form. Lets update the Jsp files to accomplish this task.
+
+
+## implicitObj.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<a href="requestTest.jsp?msg=secret&secretKey=123456"> Go to request Test !</a>
+</body>
+</html>
+```
+Notice the change in the a tag 
+```jsp
+<a href="requestTest.jsp?msg=secret&secretKey=123456"> Go to request Test !</a>
+```
+Lets save and refresh our page.
+
+![image](screenshots/Jsp/jsp_17.png)
+![image](screenshots/Jsp/jsp_18.png)
+* Our data is sent to our new page and it can be seen in the URL bar because by default get method is used.
+* To view our sent data on our page we must use implicit objects. Specifically the request object,
+* Lets update the requestTest.jsp file
+
+
+
+
+## requestTest.jsp
+```jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h2>Request test is Working !!!</h2> <br>
+
+Msg Value is : <%= request.getParameter("msg") %> <br>
+Secret Key Value is : <%= request.getParameter("secretKey") %>
+</body>
+</html>
+```
+Lets save and refresh to see the changes.
+![image](screenshots/Jsp/jsp_17.png)
+![image](screenshots/Jsp/jsp_19.png)
+We can continue with other implicit objects but lets create another jsp file called "error.jsp". With this file we can create an error page that is triggered when the value of "msg" is null. With this example we can see how to use two other implicit objects, respond and session objects.
+* Lets write some code in our new jsp file and update the previous files.
+
+## error.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>There is an error !!!</h3> 
+ Please return to main page <a href = "implicitObj.jsp">Go to main page</a>
+</body>
+</html>
+```
+* After an error occurs we will redirect our page back to our default page (implicitObj.jsp). But first we need to create a session to pass an error parameter on or page.
+
+## requestTest.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h2>Request test is Working !!!</h2> <br>
+<%
+String msg = request.getParameter("msg");
+String key = request.getParameter("secretKey");
+if (msg == null){
+	session.setAttribute("error", "error is msg not found");
+	response.sendRedirect("error.jsp");
+}
+%>
+</body>
+</html>
+```
+* Lets update our "implicitObj" too.
+
+## implicitObj
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<a href="requestTest.jsp?secretKey=123456"> Go to request Test !</a> <br>
+
+Error msg: <%= session.getAttribute("error") %>
+</body>
+</html>
+```
+```jsp
+<a href="requestTest.jsp?secretKey=123456"> Go to request Test !</a>
+```
+Notice here that msg is not passed to the requestTest page.
+* Now Lets save and refresh our page.
+![image](screenshots/Jsp/jsp_20.png)
+![image](screenshots/Jsp/jsp_21.png)
+It redirected to the error page instead of the intended requestTest page because we didn't pass the "msg" variable. there is an option to go back to our main page by clicking the link provided.
+![image](screenshots/Jsp/jsp_21.png)
+![image](screenshots/Jsp/jsp_22.png)
+* The error message we set in a session is passed to our main page.
+
+ As we discussed earlier HTTP is a "stateless" protocol which means each time a client retrieves a Webpage, the client opens a separate connection to the Web server and the server automatically does not keep any record of previous client request. There are few options to maintain the session between the Web Client and the Web ServerIn JSP, the session is the most regularly used implicit object of type HttpSession. It is mainly used to approach all data of the user until the user session is active. 
+
+ We can also see two other commonly used implicit objects, out and application Implicit objects.
+* By updating the implicitObj.jsp file we can see their implementation.
+ ## implicitObj
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<a href="requestTest.jsp?secretKey=123456"> Go to request Test !</a> <br>
+Error msg: <%= session.getAttribute("error") %> <br>
+
+<%
+Integer mycount = (Integer)application.getAttribute("count");
+if(mycount == null || mycount==0){
+	mycount =1;	
+}else{
+	mycount+=1;}
+
+	out.println("Number of times accessed:"+mycount); // This is The out implicit object
+	application.setAttribute("count",mycount);// Thid id The application object
+%>
+</body>
+</html>
+```
+This simple application will count how many times our page is accessed by a user. It used the application implicit object.
+![image](screenshots/Jsp/jsp_23.png)
+![image](screenshots/Jsp/jsp_24.png)
+![image](screenshots/Jsp/jsp_25.png)
+
+---
+# 6. Forms in JSP
