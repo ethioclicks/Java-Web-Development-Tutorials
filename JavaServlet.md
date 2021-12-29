@@ -1,5 +1,5 @@
 # **Java Servlet**
-# 1.	How to install Eclipse IDE  
+# 1. How to install Eclipse IDE  
 There are lots of IDEs that can be used for the development of Java programs. Eclipse is one of the most popular one and we will be using Eclipse for this tutorial. 
 
 We will see how we can download and install eclipse on our computers step by step.The first phase is to download Eclipse from the Eclipse download page. To download eclipse we will follow these steps.
@@ -48,6 +48,8 @@ public class JavaTesting {
 ```
 *Run your code and check the out put on the console.*
 
+## For video tutorial go to [How to install Eclipse IDE](https://youtu.be/FYe-keLCCG8?list=PLfUANuySIYNNkjgCHEFYbcND_ilAmf1it) 
+
 ---
 # 2. How to download and run Apache Tomcat on Eclipse IDE
 Java can be used for different kinds of applications. We can develop desktop applications, mobile applications, web-based applications and many more. Java can be used to create complete applications that may run on a single computer or be distributed among servers and clients in a network.
@@ -86,6 +88,9 @@ The following steps can be followed to download and run Apache Tomcat on Eclipse
  ![image](screenshots/Java_Servlet/apache_8.png)
 
  * We can use our server to run our web applications. Make sure the port number is not being used by another application. By default, Apache Tomcat runs on port 8080.
+
+ ## For video tutorial go to [How to download and run Apache Tomcat on Eclipse](https://youtu.be/CCAZjUrPwRg?list=PLfUANuySIYNNkjgCHEFYbcND_ilAmf1it) 
+
 ---
  # 3. How to create servlet
 **What exactly is a servlet?**
@@ -335,6 +340,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 ![image](screenshots/Java_Servlet/servlet_13.png)
 ![image](screenshots/Java_Servlet/servlet_14.png)
 
+ ## For video tutorial go to [How to create a servlet](https://youtu.be/OpCYeqtFH3A?list=PLfUANuySIYNNkjgCHEFYbcND_ilAmf1it)
 ---
 
 # 4. How GET Method works in servlet 
@@ -387,8 +393,9 @@ Lets dive a little bit in our code
   Fill in the form with username and password then click Submit.
   ![image](screenshots/Java_Servlet/servlet_18.png)
 
-Note that The GET method is the default method to pass information from browser to web server and it produces a long string that appears in your browser's URl box. Never use the GET method if you have password or other sensitive information to pass to the server. 
+Note that The GET method is the default method to pass information from browser to web server and it produces a long string that appears in your browser's URl box. Never use the GET method if you have password or other sensitive information to pass to the server.
 
+ ## For video tutorial go to [How Get Method works in servlet](https://youtu.be/qwtVpy4r0Hk?list=PLfUANuySIYNNkjgCHEFYbcND_ilAmf1it)
 ---
 # 5. How POST Method works in servlet 
 Now we will see how doPost works in a servlet program. We will update the doPost method in the login.java file.
@@ -432,8 +439,9 @@ Notice we changed the method in our from frm get to post. Lets run our project a
 ![image](screenshots/Java_Servlet/servlet_19.png)
 
 The Post method is generally more reliable method of passing information to a backend. This packages the information in exactly the same way as GET method. This message comes to the backend program in the form of the standard input which you can parse and use for your processing. Servlet handles this type of requests using doPost() method.
+## For video tutorial go to [How Post Method works in servlet](https://youtu.be/oLvjjDFv9d4?list=PLfUANuySIYNNkjgCHEFYbcND_ilAmf1it)
 ---
-# 6.How to get and process request data in servlet
+# 6. How to get and process request data in servlet
    * Let us create a registration form in index.html.
 
 ## index.html    
@@ -589,6 +597,8 @@ public class RegistrationHandler extends HttpServlet {
 * Finally let us run our project and see the Result.
 ![image](screenshots/Java_Servlet/servlet_20.png)
 ![image](screenshots/Java_Servlet/servlet_21.png)
+
+## For video tutorial go to [How to get and process request data in servlet](https://youtu.be/VhFDgn53E1s?list=PLfUANuySIYNNkjgCHEFYbcND_ilAmf1it)
 ---
 # 7. How to redirect request in servlet
     Java or HTML based web applications are made by compiling multiple screens and servlets. The control of the execution process is transferred from one server to another  server using two methods, namely, forward method and redirect method.
@@ -728,9 +738,9 @@ public class Confirmation extends HttpServlet {
 ```
 * We can run our project and see the output that resulted from using the forward method.
 
-![image](screenshots/servlet_22.png)
+![image](screenshots/Java_servlet/servlet_22.png)
 
-![image](screenshots/servlet_23.png)
+![image](screenshots/Java_servlet/servlet_23.png)
 
 * We can use sendRedirect method to redirect to a different page.Let us update our RegistrationHandler and Confirmation page to incorporate the send redirect method .
 ## Confirmation.java
@@ -854,6 +864,8 @@ When we give send redirect actually happening is a new request from the user.It 
 * One  thing we notice is the url, it is directly redirected to the confirmation page instead of the register page like the previous out put.
 * Also The input we inserted into our form is not returned to this page. This is because the sendRedirect method is not used for that purpose and we are actually calling a new call here. That is why using GET doesn't affect the security our program because we are not actually returning data.
 * So sendRedirect can only be used when we want client to initiate completely new Request which does not completely depend on the previous operation. 
+
+## For video tutorial go to [How to redirect request in servlet](https://youtu.be/hzq-DiRIVmM?list=PLfUANuySIYNNkjgCHEFYbcND_ilAmf1it)
 ---
 # 8. How to session in servlet
 A session indicates a period of time that a single user visits a website. A session starts when the user requests for the first page. And during a session, the user can view as many pages as he wants. The session ends if the user hasn’t requested any pages for a given amount of time (timeout).
@@ -1054,4 +1066,6 @@ public class Confirmation extends HttpServlet {
 
 
 * So using sessions we can transfer persistent data using serverRedirect() method to a completely new Request which does not completely depend on the previous operation. Sessions are further implemented with databases.
+
+## For video tutorial go to [How to session in servlet ](https://youtu.be/VlEnxBvxO-k?list=PLfUANuySIYNNkjgCHEFYbcND_ilAmf1it)
 ---
