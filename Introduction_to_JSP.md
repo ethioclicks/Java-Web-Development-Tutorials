@@ -7,6 +7,7 @@ It can be used as HTML page, which can be used in forms and registration pages w
     
 JSP is an extension of servlets and every JSP page first gets converted into servlet by JSP container before processing the client’s request.
 
+## For video tutorial go to [Introduction To JSP ](https://youtu.be/65VOvRu1v2g?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
 ---
 # 2. How to write JSP code 
 
@@ -154,6 +155,7 @@ Scriptlet tags allow you to embed any valid Java source code in JSP server pages
 ```
 * Save and refresh our page
  ![image](screenshots/Jsp/jsp_8.png)
+ ## For video tutorial go to [How to write a JSP code ](https://youtu.be/Vz2ElCkdyes?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
 ---
  # 3. Writing Java and Servlet syntax in JSP
  As we have seen earlier we can write java syntax in a jsp file using a tag. servlet is nothing but a java class so we can also write servlets in jsp files. 
@@ -227,6 +229,7 @@ for(int i = 0; i<x; i++){
 
 * We can use other loops like while and do while using the same logic of separating the static html part and the dynamic java part.
  ---
+ ## For video tutorial go to [Writing Java and Servlet syntax in JSP](https://youtu.be/NNkTAuNwOHk?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
 # 4. How to use JSP directives 
 JSP directives are the elements of a JSP source code that guide the web container on how to translate the JSP page into it’s respective servlet. They are special instruction to Web Container at the time of page translation. Directive tags are of three types: **Page, Include and Taglib.**
 
@@ -389,6 +392,9 @@ Syntax of taglib directive is:
 <%@ taglib prefix="prefixOfTag" uri="uriOfTagLibrary" %>
 ```
 The prefix is used to distinguish the custom tag from other library custom tag. Prefix is prepended to the custom tag name. Every custom tag must have a prefix.
+
+## For video tutorial go to [How to use JSP directives ](https://youtu.be/4Cc_ZvhY3Jo?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
+---
 
 # 5. Implicit objects
 
@@ -619,5 +625,553 @@ This simple application will count how many times our page is accessed by a user
 ![image](screenshots/Jsp/jsp_24.png)
 ![image](screenshots/Jsp/jsp_25.png)
 
+## For video tutorial go to [Implicit Objects](https://youtu.be/XAld5t9HR7o?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
 ---
+
 # 6. Forms in JSP
+We use forms in Jsp when we need to pass some information from our browser to the web server and ultimately to the backend program. The browser uses two methods to pass this information to the web server. These methods are the GET Method and the POST Method.
+* Lets create a simple form to implement this functions in jsp.
+* First create a jsp file called "formTest.jsp" (This will be our default page so make sure to change it in the web.xml file).
+* We also need another jsp file called "formResult.jsp".
+## formTest.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="formResult.jsp" method="post">
+		Username: <input type="text" name="username" /> <br> 
+		Sex: Male<input type = "radio" name = "sex" value = "M" checked ="checked" > 
+		     Female<input type = "radio" name = "sex" value = "F" ><br/>
+		Favorite Food: Doro<input type = "checkbox" name = "ffood" value = "doro" >
+		               Sigawet<input type = "checkbox" name = "ffood" value = "sigawet">
+		               Shiro<input type = "checkbox" name = "ffood" value = "shiro" >  <br>    
+		Nationlality: <select name = "country">
+						<option value = "GE"> Germany </option>
+		                <option value = "USA"> USA </option>
+		                <option value = "FR"> France </option>
+					   </select><br>
+		Remarks: <br>
+		<textarea rows="5" cols="50" name ="remarks"> </textarea> <br>		   	        
+		<input type="submit" value="Submit" /><br>
+	</form>
+</body>
+</html>
+```
+Our form page should look something like this.
+![image](screenshots/Jsp/jsp_26.png)
+* Our aim is to send the form data to the formResult page using a post method. We can write the following code in the formResult.jsp file to achieve our goal.
+
+## formResult.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+Name: <%=request.getParameter("username") %><br>
+Sex : <%=request.getParameter("sex") %><br>
+Favorite Foods: <br>
+	<ul>
+	<% String[] foods = request.getParameterValues("ffood");
+	 for (String food:foods)
+	 {
+	%>
+	 <li> <%=food %></li>
+	<%
+	 }
+	%>
+	</ul> <br>
+	 
+	 Nationality is : <%= request.getParameter("country") %><br>
+	 User remarks: <%= request.getParameter("remarks") %><br>
+</body>
+</html>
+```
+
+* Finally save all and refresh our page, then fill in our form.
+
+![image](screenshots/Jsp/jsp_27.png)
+* lets click submit and see our redirected page.
+![image](screenshots/Jsp/jsp_28.png)
+ 
+ ## For video tutorial go to [Forms in JSP ](https://youtu.be/FmzAnwSgjOc?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
+---
+# 7. JSTL tag library
+During the span of this tutorial you might have noticed some advantages and disadvantages of using Jsp for web development. The main noticeable advantage is the integration of the dynamic java part and the static html part. but Jsp has its own drawbacks one the main drawbacks is code unreadability that creates confusion.
+```jsp
+<% String[] foods = request.getParameterValues("ffood");
+	 for (String food:foods)
+	 {
+	%>
+	 <li> <%=food %></li>
+	<%
+	 }
+	%>
+	</ul> <br>
+```
+This simple code snippet is a testimony of the confusions we face when we are using plain Jsp. A library called JSTL is needed to tackle the problems. 
+
+The JavaServer Pages Standard Tag Library (JSTL) is a collection of useful JSP tags which encapsulates the core functionality common to many JSP applications. JSTL has support for common, structural tasks such as iteration and conditionals, tags for manipulating XML documents, internationalization tags, and SQL tags. It also provides a framework for integrating the existing custom tags with the JSTL tags.
+
+First we need to Include this library in our project. To do that lets follow this steps.
+* Download the library from the internet by searching "Jstl maven dependency" in our favorite search engine. ( or follow this link [Jstl Download](https://mvnrepository.com/artifact/jstl/jstl) ).
+![image](screenshots/Jsp/jsp_29.png)
+* Lets Choose the version we want (we can install this using maven but lets add it to our project manually for now as we will come back to maven later)
+![image](screenshots/Jsp/jsp_30.png)
+![image](screenshots/Jsp/jsp_31.png)
+* On the next page lets right click on the first link the click save link as.
+![image](screenshots/Jsp/jsp_32.png)
+Save the link in the lib folder found within your project folder.
+![image](screenshots/Jsp/jsp_33.png)
+The jar file will be installed in the specified folder after you clicked save.
+
+The JSTL tags can be classified, according to their functions, into the following JSTL tag library groups that can be used when creating a JSP page −
+
+**Core Tags :**  The core group of tags are the most commonly used JSTL tags.
+```jsp
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+```
+**Formatting tags :** The JSTL formatting tags are used to format and display text, the date, the time, and numbers for internationalized Websites.
+```jsp
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+```
+**SQL tags :** The JSTL SQL tag library provides tags for interacting with relational databases (RDBMSs) such as Oracle, mySQL, or Microsoft SQL Server.
+```jsp
+<%@ taglib prefix = "sql" uri = "http://java.sun.com/jsp/jstl/sql" %>
+```
+**XML tags :** The JSTL XML tags provide a JSP-centric way of creating and manipulating the XML documents. The JSTL XML tag library has custom tags for interacting with the XML data. This includes parsing the XML, transforming the XML data, and the flow control based on the XPath expressions.
+```jsp
+<%@ taglib prefix = "x" 
+   uri = "http://java.sun.com/jsp/jstl/xml" %>
+```
+**JSTL Functions :** JSTL includes a number of standard functions, most of which are common string manipulation functions.
+```jsp
+<%@ taglib prefix = "fn" 
+   uri = "http://java.sun.com/jsp/jstl/functions" %>
+```
+
+ * After we add the library to our project we will create a new jsp file to test out jstl tags.
+ * Save it as jstlTest.jsp and make it our default page in web.xml. 
+ ## jstlTest.jsp
+ ```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %> <!-- Using Core Tags from library  -->   
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<c:set var="name" scope="session" value = "kebede.tessema"></c:set>
+<c:set var="salary" scope="session" value = "${ 3000+100 }"></c:set>
+
+<c:if test = "${salary>2000}">
+<p> Your salary is <c:out value="${salary}"/>, It is a good salary </p>
+</c:if>
+
+<c:if test = "${salary<2000}">
+<p> Your salary is <c:out value="${salary}"/>, It is not a good salary </p>
+</c:if>
+<hr>
+</body>
+</html>
+
+ ```
+ with this simple conditional program we can notice some changes in the syntax and it made our code more readable and understandable. lets run the project and see the intended out put.
+ ![image](screenshots/Jsp/jsp_34.png)
+
+ * Lets see some more implementation. The following code shows the implementation of switch statements in JSTL library.
+ ## jstlTest.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %> <!-- Using Core Tags from library  -->   
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<c:set var="name" scope="session" value = "kebede.tessema"></c:set>
+<c:set var="salary" scope="session" value = "${ 3000+100 }"></c:set>
+
+<c:if test = "${salary>2000}">
+<p> Your salary is <c:out value="${salary}"/>, It is a good salary </p>
+</c:if>
+
+<c:if test = "${salary<2000}">
+<p> Your salary is <c:out value="${salary}"/>, It is not a good salary </p>
+</c:if>
+<hr>
+
+<c:choose>
+<c:when test="${salary<2000}"> <p> It is a small salary !!</p>       </c:when>
+<c:when test="${2000<salary && salary <4000}"> <p> It is a medium salary !!</p> </c:when>
+<c:when test="${salary>4000}"> <p> It is a big salary !!</p>         </c:when>
+</c:choose>
+
+</body>
+</html>
+```
+![image](screenshots/Jsp/jsp_35.png)
+* Lets add some function Library Implementation in our code.
+## jstlTest.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %> <!-- Using Core Tags from library  -->   
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %> <!-- Using Jstl Functions from our Library -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<c:set var="name" scope="session" value = "kebede.tessema"></c:set>
+<c:set var="salary" scope="session" value = "${ 3000+100 }"></c:set>
+
+<c:if test = "${salary>2000}">
+<p> Your salary is <c:out value="${salary}"/>, It is a good salary </p>
+</c:if>
+
+<c:if test = "${salary<2000}">
+<p> Your salary is <c:out value="${salary}"/>, It is not a good salary </p>
+</c:if>
+<!-- If Statment From JSTL-->
+<hr>
+
+<c:choose>
+<c:when test="${salary<2000}"> <p> It is a small salary !!</p>       </c:when>
+<c:when test="${2000<salary && salary <4000}"> <p> It is a medium salary !!</p> </c:when>
+<c:when test="${salary>4000}"> <p> It is a big salary !!</p>         </c:when>
+</c:choose>
+<!-- Swich statment tag from JSTL -->
+<hr>
+
+<h2>About Your Name</h2> <br>
+<c:if test="${fn:contains(name,'.') }"> 
+<c:out value="Invalid Character . found at ${fn:indexOf(name,'.') } index"/><!-- using Cintains function from function library to point out invalid Character  --> <br>
+
+Before change: <c:out value="${name}"/><br>
+
+<c:set var="name" value="${fn:replace(name,'.',' ') }"/> <!-- Using replace function from function library to change the invalid character to a valid one  -->
+After change:  <c:out value="${name}"/><br>
+After Upper Case change:  <c:out value="${fn:toUpperCase(name) }"/><!--  Using toUpperCase function to change the letters in our name to upper case letters-->
+
+</c:if>  <br>  
+
+</body>
+</html>
+```
+![image](screenshots/Jsp/jsp_36.png)
+
+* we can use a lot more functions according to our need that are built in the JSTL function library we can also use different JSTL tags besides the once shown above.
+
+ ## For video tutorial go to [JSTL Tag library ](https://youtu.be/VLi7OHCIvLM?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
+
+ ---
+ # 8. Creating JSP maven project
+Maven is a powerful project management tool that is based on POM (project object model). It is used for projects build, dependency and documentation.we can tell maven is a tool that can be used for building and managing any Java-based project. maven make the day-to-day work of Java developers easier and generally help with the comprehension of any Java-based project.
+* Lets see how to create a maven project in eclipse.
+* Right click on our project explorer -> new -> other
+![image](screenshots/Jsp/jsp_37.png)
+* On the search bar search for Maven and select Maven project.
+![image](screenshots/Jsp/jsp_38.png)
+* Click on next
+![image](screenshots/Jsp/jsp_39.png)
+* In the filter box search for 'webapp' and select the one shown in the picture below Then click on next.
+![image](screenshots/Jsp/jsp_40.png)
+
+* Finally lets give identification to our project by naming it in the following manner.
+![image](screenshots/Jsp/jsp_41.png)
+
+* Now our maven project is created.
+![image](screenshots/Jsp/jsp_42.png)
+
+We can see some differences in the project structure. We can also notice an error in there. To fix it :
+* Right-click our project -> properties -> Targeting Run time -> check the server we are using -> apply and close
+![image](screenshots/Jsp/jsp_43.png)
+* Now the error is gone. 
+In the previous chapter we have added the JSTL library to our project by manually downloading it from the web site. With maven we can automate that task by just writing dependencies in our pom.xml file.
+
+## pom.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.ethioclick</groupId>
+  <artifactId>mvcJspDemo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>mvcJspDemo Maven Webapp</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>mvcJspDemo</finalName>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.22.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.2.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
+
+
+```
+
+* We can add various libraries by writing their  dependencies in this file.
+* Lets see this in action by adding the mysql library in our project. 
+* Go to [Maven Repository](https://mvnrepository.com/artifact/jstl/jstl) on the web.
+* Search for your intended library, in this case the mysql library.
+![image](screenshots/Jsp/jsp_44.png)
+* Select the latest version 
+![image](screenshots/Jsp/jsp_45.png)
+* Click on the box below to copy its content.
+![image](screenshots/Jsp/jsp_46.png)
+* Paste the dependency in the pom.xml file.
+![image](screenshots/Jsp/jsp_47.png)
+* When we save the file the library will be installed to our project automatically.
+* We can use servlets in our maven project by adding a java folder in our main folder. we can also add other folders like a javascript folder or a css folder there if we want to use them in our project.
+* src/main/java may not be visible in Package Explorer when you create your project. This folder may be important for using servlets and other java classes. Its actually present in our project its just not visible in the project explorer. To make it visible: 
+    * Right click the Maven Project -> Build Path -> Configure Build Path
+    * In Order and Export tab, you can see the message like '2 build path entries are missing'
+    * Now select 'JRE System Library' and 'Maven Dependencies' checkbox
+    ![image](screenshots/Jsp/jsp_48.png)
+    * Click apply and close
+Now you can see below in all type of Explorers 
+* Now lets create a new servlet file in a package .
+![image](screenshots/Jsp/jsp_49.png)
+* Our maven project is ready to be used 
+## For video tutorial go to [Creating JSP maven project ](https://youtu.be/LSY4KTExPdI?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
+
+---
+# 9. How to create a database connection from jsp project
+The database is used for storing various types of data which are huge and has storing capacity in gigabytes. JSP can connect with such databases to create and manage the records. We will be using the mysql database to implement database connection in jsp.
+
+* On our previous project lets create a class to handle our database connection.
+* Right-click on our package -> new -> class. Then name or class.
+![image](screenshots/Jsp/jsp_50.png)
+* Following the same step create another java class called User.java to get and set user data.
+* We also need to create a database schema in mySql dbms. To know more about using mysql follow this link, [Introduction to Database project ](https://youtu.be/8sStck1O5G4?list=PLfUANuySIYNOupa8IVL5Dc9vm7i_X_7I7)
+
+![image](screenshots/Jsp/jsp_51.png)
+## User.java 
+```java
+package com.ethioclick.test;
+
+public class User {
+	private String name;
+	private String sex;
+	private String foods;
+	private String country;
+	private String remarks;
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getFoods() {
+		return foods;
+	}
+	public void setFoods(String foods) {
+		this.foods = foods;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	
+
+} 
+```
+
+## DAO.java 
+```java
+package com.ethioclick.test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mysql.cj.protocol.Resultset;
+
+public class DAO {
+ 
+	public boolean save (User user) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/jspmvc","root","root");
+			String sql = "INSERT INTO user(name,sex,foods,country,remarks)"
+					       + "VALUES(?,?,?,?,?)";
+			
+			PreparedStatement preparedstatement = connection.prepareStatement(sql);
+			
+			preparedstatement.setString(1, user.getName());
+			preparedstatement.setString(2, user.getSex());
+			preparedstatement.setString(3, user.getFoods());
+			preparedstatement.setString(4, user.getCountry());
+			preparedstatement.setString(5, user.getRemarks());
+			
+			int excute = preparedstatement.executeUpdate();
+			return excute>0;
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public List<User> getAll(){
+		List<User> users = new ArrayList<User>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/jspmvc","root","root");
+		String sql = "SELECT * FROM jspmvc.user";
+				      
+		
+		PreparedStatement preparedstatement = connection.prepareStatement(sql);
+		ResultSet resultset= preparedstatement.executeQuery();
+		User user = null;
+		while(resultset.next()) {
+			user = new User();
+			user.setName(resultset.getString(1));
+			user.setSex(resultset.getString(2));
+			user.setFoods(resultset.getString(3));
+			user.setCountry(resultset.getString(4));
+			user.setRemarks(resultset.getString(5));
+		}
+		
+			return users;
+		
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+
+	public static void main(String[] args) {
+		User testuser = new User();
+		testuser.setName("Ethioclicks");
+		testuser.setSex("Male");
+		testuser.setFoods("Shiro");
+		testuser.setCountry("Ethiopia");
+		testuser.setRemarks("Shiro is the best");
+		DAO dao = new DAO();
+		boolean saved=dao.save(testuser);
+		
+		System.out.println("is saved: "+ saved);
+		
+		List <User> users = dao.getAll();
+		for (User user:users) {
+			System.out.println("Name: "+ user.getName());
+		}
+		
+		
+	}
+	
+}
+
+```
+* We can Run our project as a java application to test the output.
+
+![image](screenshots/Jsp/jsp_52.png)
+
+## For video tutorial go to [How to create a database connection from jsp project  ](https://youtu.be/3XS9svPx6bo?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
+
+---
