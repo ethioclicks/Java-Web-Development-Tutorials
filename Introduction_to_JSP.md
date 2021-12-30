@@ -1129,6 +1129,7 @@ public class DAO {
 			user.setFoods(resultset.getString(3));
 			user.setCountry(resultset.getString(4));
 			user.setRemarks(resultset.getString(5));
+			users.add(user);
 		}
 		
 			return users;
@@ -1171,7 +1172,188 @@ public class DAO {
 * We can Run our project as a java application to test the output.
 
 ![image](screenshots/Jsp/jsp_52.png)
-
+![image](screenshots/Jsp/jsp_53.png)
+The input is written in our database. Next we will see a way of using forms in a webpage to read and write data in a database.
 ## For video tutorial go to [How to create a database connection from jsp project  ](https://youtu.be/3XS9svPx6bo?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
 
 ---
+
+# 10. How data moves from UI to backend
+ Previously, We have tested our Project to write data to our database. we also read from data base in a console application now lets use forms to input data into database and to read data from database on a different webpage.
+ * Lets create a new jsp file in our project to write our form on.
+ ## index.jsp
+ ```jsp
+<html>
+<body>
+<h2>Hello World!</h2>
+<a href="registration.jsp"> Go To Registration Page !!!</a>
+</body>
+</html>
+
+ ```
+
+## registration.jsp
+ ```jsp
+ <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="RegistrationHandler" method="post">
+		Username: <input type="text" name="username" /> <br> 
+		Sex: Male<input type = "radio" name = "sex" value = "M" checked ="checked" > 
+		     Female<input type = "radio" name = "sex" value = "F" ><br/>
+		Favorite Food: Doro<input type = "checkbox" name = "ffood" value = "doro" >
+		               Sigawet<input type = "checkbox" name = "ffood" value = "sigawet">
+		               Shiro<input type = "checkbox" name = "ffood" value = "shiro" >  <br>    
+		Nationlality: <select name = "country">
+						<option value = "GE"> Germany </option>
+		                <option value = "USA"> USA </option>
+		                <option value = "FR"> France </option>
+					   </select><br>
+		Remarks: <br>
+		<textarea rows="5" cols="50" name ="remarks"> </textarea> <br>
+					   	
+					   	        
+		<input type="submit" value="Submit" /><br>
+	</form>
+</body>
+</html>
+ ```
+* Lets run our project on server.
+ ![image](screenshots/Jsp/jsp_54.png)
+![image](screenshots/Jsp/jsp_55.png)
+
+* We need a servlet to handle our input data so lets create a servlet called RegistrationHandler.
+## RegistrationHandler.java
+```java
+package com.ethioclick.test;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class RegistrationHandler
+ */
+public class RegistrationHandler extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public RegistrationHandler() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		User user = new User();
+		user.setName(request.getParameter("username"));
+		user.setSex(request.getParameter("sex"));
+		String[] foods = request.getParameterValues("ffood");
+		user.setFoods(Arrays.toString(foods));
+		user.setCountry(request.getParameter("country"));
+		user.setRemarks(request.getParameter("remarks"));
+		
+		DAO dao = new DAO();
+		boolean issaved = dao.save(user);
+		
+		if(issaved) {
+			List<User>allusers=dao.getAll();
+			HttpSession session = request.getSession();
+			session.setAttribute("users", allusers);
+			response.sendRedirect("dashboard.jsp");
+		}
+		else {
+			HttpSession session = request.getSession();
+			session.setAttribute("errorInfo", "Unable To Save or Fetch");
+			response.sendRedirect("error.jsp");  
+		}
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+```
+
+After this we need to create two other jsp files namely dashboard.jsp and error.jsp that will be triggered based on scenarios in the registration handler.
+## dashboard.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"
+    import = "java.util.*,com.ethioclick.test.*"
+    %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<%
+List<User> users = (List<User>)session.getAttribute("users");
+
+%>
+<table>
+<tr><th>Name</th><th>Sex</th><th>Foods</th><th>Country</th><th>Remarks</th></tr>
+<%
+	for (User user:users){
+
+%>
+<tr><td><%=user.getName() %></td><td><%=user.getSex() %></td><td><%=user.getFoods() %></td><td><%=user.getCountry() %></td><td><%=user.getRemarks() %></td></tr>
+<%}%>
+</table>
+</body>
+</html>
+```
+
+## error.jsp
+```jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<%=session.getAttribute("errorInfo") %>
+</body>
+</html>
+```
+
+Lets Run our project on a server and see the final output
+![image](screenshots/Jsp/jsp_55.png)
+![image](screenshots/Jsp/jsp_56.png)
+![image](screenshots/Jsp/jsp_57.png)
+We can also check mysql if our data is written on the database
+![image](screenshots/Jsp/jsp_58.png)
+
+With this simple project we have summarized some of the topics we have seen on JSP and servlets. we can add more functionalities to this project to perform all CRUD operations. 
+
+## For video tutorial go to [ How data moves from UI to backend.](https://youtu.be/kHVCbgemaiE?list=PLfUANuySIYNMFFWkjqqd6toygvbVTfwyU)
