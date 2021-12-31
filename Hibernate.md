@@ -151,7 +151,7 @@ public class DBmanger {
  ![image](screenshots/Hibernate/hibernate_9.png)
 * At the bottom of the console page there is a message clearly stating the id , first name and last name we provided is written in our database. Let us check it in our mysql workbench.
  ![image](screenshots/Hibernate/hibernate_10.png)
-* So we have seen that we can perform sql crud operations using hibernate without writing SQL code in our java code hence the name Object Relational Mapping. This easily solves the data mismatch found between the object oriented classes of an application and relational database. ORM connects these two with ease through the use of the XML mapping file. It enables to gain complete control over the application as well as the database design. This feature makes Hibernate flexible and powerful.
+* So we have seen that we can perform sql operations using hibernate without writing SQL code in our java code hence the name Object Relational Mapping. This easily solves the data mismatch found between the object oriented classes of an application and relational database. ORM connects these two with ease through the use of the XML mapping file. It enables to gain complete control over the application as well as the database design. This feature makes Hibernate flexible and powerful.
 
 Also Hibernate is database independent. It can be used to connect with any database like Oracle and MySQL. This cross database portability of Hibernate is easily achieved by changing a parameter ‘database dialect’ in the configuration file. Database independency is considered as one of the major advantages of Hibernate. No deep knowledge of SQL is needed.
 Hibernate supports a powerful query language called HQL (Hibernate Query Language). This query language is more powerful than SQL and is completely object oriented. HQL’s advanced features like pagination and dynamic profiling are not present in SQL. HQL can be used to implement some of the prominent object oriented concepts like inheritance, polymorphism and association.
@@ -159,4 +159,157 @@ Hibernate supports a powerful query language called HQL (Hibernate Query Languag
 ## For video tutorial go to [Java Hibernate : How to connect with DB ](https://youtu.be/Jf0mAD3mbiw?list=PLfUANuySIYNO7dmckkcSOQY1PepmwdssE)
 ---
 
-2.
+# 2. How To  save an entity
+ In the previous section we have seen how to update an existing database table (Entity) using Hibernate from our code. we can also create a new entity using Hibernate with a little tweak in our code.
+
+ * First lets remove the existing student table from our database.
+  ![image](screenshots/Hibernate/hibernate_12.png)
+* Now Lets Update our hibernate.cfg.xml code and see the difference.
+
+## hibernate.cfg.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+		
+<hibernate-configuration>
+	<session-factory>
+	
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/javadb?useSSL=false</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
+		<property name="show_sql">true</property>
+	 <property name="hibernate.hbm2ddl.auto">create</property>
+
+		<mapping class="com.studenthibernateapp.entities.Student" /> <!-- Mapping with our student entity -->
+
+
+	</session-factory>
+</hibernate-configuration>
+```
+* Notice The following Line of code is The difference.
+```java
+<property name="hibernate.hbm2ddl.auto">create</property>
+```
+* Lets run and see the change in our console.
+ ![image](screenshots/Hibernate/hibernate_13.png)
+* We can Also see if the entity is created in our database.
+ ![image](screenshots/Hibernate/hibernate_14.png) 
+
+
+## For video tutorial go to [How To  save an entity ](https://youtu.be/YDzPei9QCXg?list=PLfUANuySIYNO7dmckkcSOQY1PepmwdssE)
+---
+# 3. How to fetch data Using Hibernate  
+
+We have seen how to do Create and Update operation Using Hibernate. Now We can See a way of reading data from our database and displaying it in our project.
+
+* But first lets reorganize our DBmanger.java code using methods to make it more efficient and readable.
+
+## DBmanger.java
+```java
+package com.studenthibernateapp.entities;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class DBmanger {
+
+	public static void main (String[] args) {
+		
+		Student student = new Student();
+		student.setFirstname("Abel");
+		student.setLastname("Eshetu");
+		
+		saveStudent(student); // call function to save or update 
+	}
+	
+	private static void saveStudent(Student student) {
+		Session session = getSession();
+		Transaction transaction = session.beginTransaction();
+		session.save(student); //save, update
+		transaction.commit();
+		session.close();	
+	}
+	static Session getSession() {
+		Configuration cnfg = new Configuration();
+		cnfg.configure("hibernate.cfg.xml");
+		
+		Session session = cnfg.buildSessionFactory().openSession();
+		return session;
+	}
+}
+
+```
+
+* After this Reorganization we can read data from our data base by writing a function in the above code.
+## DBmanger.java
+```java
+package com.studenthibernateapp.entities;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class DBmanger {
+
+	public static void main (String[] args) {
+		
+		Student student = new Student();
+		student.setFirstname("Abel");
+		student.setLastname("Eshetu");
+		
+		saveStudent(student);
+		List<Student>students = getAllStudents();
+		
+		for (Student st:students) {
+			System.out.println("Student First-name: "+st.getFirstname()+"Student Second-name: "+st.getLastname()+"Student ID: "+st.getId());
+		}
+	   
+	}
+	
+	
+	private static void saveStudent(Student student) {
+		Session session = getSession();
+		Transaction transaction = session.beginTransaction();
+		session.save(student);//save, update
+		transaction.commit();
+		session.close();
+		
+	}
+	
+	private static List<Student> getAllStudents() {
+		Session session = getSession();
+		Transaction transaction = session.beginTransaction();
+		
+		List<Student> students = session.createQuery("FROM Student").list();
+		
+		transaction.commit();
+		session.close();
+		
+		return students;
+	}
+	
+
+	static Session getSession() {
+		Configuration cnfg = new Configuration();
+		cnfg.configure("hibernate.cfg.xml");
+		
+		Session session = cnfg.buildSessionFactory().openSession();
+		return session;
+	}
+	
+	
+}
+
+```
+ * After we add the Function to fetch data from our database lets run it as a java application and see the result in console.
+
+![image](screenshots/Hibernate/hibernate_15.png)
+
+## For video tutorial go to [How to fetch data ](https://youtu.be/e3PNaforokk?list=PLfUANuySIYNO7dmckkcSOQY1PepmwdssE)
+
+---
