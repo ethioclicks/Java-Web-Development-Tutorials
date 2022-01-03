@@ -22,8 +22,8 @@ Upon joining your sandbox, end users will only receive messages from your specif
    <artifactId>twilio</artifactId>
    <version>8.23.0</version>
 </dependency>
-•	Sample Code
-import com.twilio.Twilio;
+<h4>•	Sample Code</h4>
+<p>import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 public class Example {
@@ -41,3 +41,4 @@ public class Example {
         System.out.println(message.getSid());
     }
 }
+ </p>
