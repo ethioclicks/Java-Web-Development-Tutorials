@@ -17,28 +17,28 @@ Upon joining your sandbox, end users will only receive messages from your specif
 
 <h4>Programmable Messaging for WhatsApp</h4>
 <h4>•	Get Maven Dependency</h4>
-<dependency>
-   <groupId>com.twilio.sdk</groupId>
-   <artifactId>twilio</artifactId>
-   <version>8.23.0</version>
-</dependency>
+<p><dependency><br>
+   <groupId>com.twilio.sdk</groupId><br>
+   <artifactId>twilio</artifactId><br>
+   <version>8.23.0</version><br>
+</dependency></p>
 <h4>•	Sample Code</h4>
-<p>import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
-public class Example {
-    // Find your Account SID and Auth Token at twilio.com/console
-    // and set the environment variables. See http://twil.io/secure
-    public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
-    public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
-    public static void main(String[] args) {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        Message message = Message.creator(
-                new com.twilio.type.PhoneNumber("whatsapp:to<phone number> "),
-                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
-                "Hello there!")
-            .create();
-        System.out.println(message.getSid());
-    }
-}
+<p>import com.twilio.Twilio;<br>
+import com.twilio.rest.api.v2010.account.Message;<br>
+import com.twilio.type.PhoneNumber;<br>
+public class Example {<br>
+    // Find your Account SID and Auth Token at twilio.com/console<br>
+    // and set the environment variables. See http://twil.io/secure<br>
+    public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");<br>
+    public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");<br>
+    public static void main(String[] args) {<br>
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);<br>
+        Message message = Message.creator(<br>
+                new com.twilio.type.PhoneNumber("whatsapp:to<phone number> "),<br>
+                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),<br>
+                "Hello there!")<br>
+            .create();<br>
+        System.out.println(message.getSid());<br>
+    }<br>
+}<br>
  </p>
