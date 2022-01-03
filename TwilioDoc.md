@@ -8,20 +8,17 @@ First, send the message "join <your Sandbox keyword>" to your Sandbox number in 
 <p>When Twilio receives the join message, we will reply with a confirmation to that user that they have joined the Sandbox.
 Upon joining your sandbox, end users will only receive messages from your specific sandbox. To disconnect from the Sandbox, they can reply to the message from WhatsApp with the word "stop". You can switch to a different Sandbox by messaging "join <other sandbox keyword>".</p>
 
- 
-
-
 ![twilio](https://user-images.githubusercontent.com/80669589/147925506-4d5818a5-6fb5-4834-bcaf-8a36d0e2347f.png)
 
-
-
 <h4>Programmable Messaging for WhatsApp</h4>
+
 <h4>•	Get Maven Dependency</h4>
 <p><dependency><br>
-   <pre><groupId>com.twilio.sdk</groupId><br>
+   <groupId>com.twilio.sdk</groupId><br>
    <artifactId>twilio</artifactId><br>
-   <version>8.23.0</version></pre><br>
+   <version>8.23.0</version><br>
 </dependency></p>
+
 <h4>•	Sample Code</h4>
 <p>import com.twilio.Twilio;<br>
 import com.twilio.rest.api.v2010.account.Message;<br>
