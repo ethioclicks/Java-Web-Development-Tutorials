@@ -18,7 +18,7 @@ Upon joining your sandbox, end users will only receive messages from your specif
 <h4>Programmable Messaging for WhatsApp</h4>
 <h4>•	Get Maven Dependency</h4>
 <p><dependency><br>
-   <groupId>com.twilio.sdk</groupId><br>
+   "<groupId>com.twilio.sdk</groupId>"<br>
    <artifactId>twilio</artifactId><br>
    <version>8.23.0</version><br>
 </dependency></p>
