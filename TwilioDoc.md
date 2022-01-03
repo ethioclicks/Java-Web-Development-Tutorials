@@ -14,9 +14,9 @@ Upon joining your sandbox, end users will only receive messages from your specif
 
 <h4>•	Get Maven Dependency</h4>
 <p><dependency><br>
-   <groupId>com.twilio.sdk</groupId><br>
-   <artifactId>twilio</artifactId><br>
-   <version>8.23.0</version><br>
+  <pre> &lt;groupId&gt;com.twilio.sdk&lt;/groupId&gt;<br>
+   &lt;artifactId>twilio&lt;/artifactId&gt;<br>
+   &lt;version&gt;8.23.0&lt;/version&gt;</pre><br>
 </dependency></p>
 
 <h4>•	Sample Code</h4>
