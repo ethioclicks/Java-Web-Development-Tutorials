@@ -423,7 +423,9 @@ public class MySpringConfig {
     MockRepository hibernateRepository;
 
 }
+
 Spring will create appropriate object based on type or we can use @Qualifier annotation as follows:
+
 @Configuration
 @ComponentScan("com")
 public class MySpringConfig {
@@ -435,3 +437,143 @@ public class MySpringConfig {
 }
 
 
+
+### XML Configuration
+The other way of configuring spring is to use xml. Xml configuration is the first spring configuration mechanism, it helps to take out the configuration from the code and implement separation of concern. 
+In order to demo this concept, we need to create a new project and add the previous classes
+ 
+![image](screenshots/spring-screenshots/7-xml-configuration.PNG)
+
+public class Speaker {
+
+    String firstName;
+    String lastName;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+}
+
+
+
+public interface MockRepository {
+    List<Speaker> getSpeakers();
+}
+
+public class H2Repository implements MockRepository {
+    private ArrayList<Speaker> speakers;
+
+    H2Repository() {
+        speakers = new ArrayList<Speaker>();
+        Speaker speaker = new Speaker();
+        speaker.setFirstName("Alemu  h2");
+        speaker.setLastName("Kebede  h2");
+        speakers.add(speaker);
+    }
+
+    public List<Speaker> getSpeakers() {
+        return speakers;
+    }
+}
+
+public class HibernateRepository implements MockRepository {
+    private ArrayList<Speaker> speakers;
+
+    HibernateRepository() {
+        speakers = new ArrayList<Speaker>();
+        Speaker speaker = new Speaker();
+        speaker.setFirstName("Alemu hibernate");
+        speaker.setLastName("Kebede hibernate");
+        speakers.add(speaker);
+    }
+
+    public List<Speaker> getSpeakers() {
+        return speakers;
+    }
+}
+
+####adding spring xml configuration
+Create xml file in resources folder as followes
+Resource->new->file->your file name example(springapp.xml)
+Add spring sechema name space as follows(you can find a sample here: 40. XML Schema-based configuration (spring.io) ) 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    
+
+</beans>
+
+
+![image](screenshots/spring-screenshots/8-spring-namespace.PNG)
+
+
+Now we can create a bean from xml configuration as follows:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <bean name="h2" class="com.repo.H2Repository"></bean>
+    <bean name="hibernate" class="com.repo.HibernateRepository"></bean>
+
+</beans>
+
+Then we can test our configuration:
+
+
+public class Application {
+
+    public static void main(String[] args) {
+
+//        com.repo.MockRepository repository = new com.repo.H2Repository();
+        ApplicationContext context = new ClassPathXmlApplicationContext("springapp.xml");
+
+        MockRepository h2repository = (MockRepository) context.getBean("h2");
+        MockRepository hibernateRepository2 = (MockRepository) context.getBean("hibernate");
+        System.out.println("H2 Repository");
+        System.out.println("Size: " + h2repository.getSpeakers().size());
+        System.out.println("First name: " + h2repository.getSpeakers().get(0).getFirstName());
+        System.out.println("Hibernate Repository");
+        System.out.println("Size: " + hibernateRepository2.getSpeakers().size());
+        System.out.println("First name: " + hibernateRepository2.getSpeakers().get(0).getFirstName());
+
+    }
+}
+
+Output will be as follows:
+
+H2 Repository
+Size: 1
+First name: Alemu  h2
+Hibernate Repository
+Size: 1
+First name: Alemu hibernate
+
+Generally, we can do all sorts of configurations that we can do using annotation or java-based spring configuration; we can do it using xml configuration. Now a days most of applications uses the first two approaches (java based and annotation-based spring configuration) but xml configuration found on old applications. Further reading on this topic is found here: Spring - Bean Definition (tutorialspoint.com)
+
+Useful annotations 
+@Profile :- to decide a code in which environment to run (dev,prod,..)
+@PostConstract:- to run a function after spring initialization(construction)
+
+
+### Spring MVC
