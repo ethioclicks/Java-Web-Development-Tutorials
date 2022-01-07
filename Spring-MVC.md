@@ -114,7 +114,10 @@ This dependency will insert all theyemeleaf related dependencies in our project.
 After we add thyemeleaf dependency we need to create HTML file inside of template folder and we need to add theyme leaf name space as follows:
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+
 ![image](screenshots/spring-screenshots/23-greetingpage.PNG)
+
+
 
 <p th:text="${greeting}"></p>
 th in to spacify to use theymleaf tag from the namespace. Here we used text to display a text using greeting value from the model
