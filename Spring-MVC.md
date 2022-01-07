@@ -39,7 +39,7 @@ Note: the download project has an embedded tomcat.
 
 ### Running spring MVC application
 If we are using Java 8 we need to update pom.xml by adding the following plugin configuration as we <<<<<see in the previous section>>>>>>
-````
+```xml
 <plugin>
    <groupId>org.apache.maven.plugins</groupId>
    <artifactId>maven-compiler-plugin</artifactId>
@@ -49,7 +49,7 @@ If we are using Java 8 we need to update pom.xml by adding the following plugin 
       <target>1.8</target>
    </configuration>
 </plugin>
-````
+```
 
 By selecting install option in the maven section, you can Install your dependency for your project using the embedded maven.
 
@@ -87,11 +87,11 @@ In order to handle the request coming form the user we need to create a class wi
 * PUT for updating information
 * OPTION for checking the validity of a URL
 When the front end application needs to communicate with back end it needs to use this methods. This might be specifying it inside HTML form tag as a method element.
-````
+```html
 <form path=�/greeting� method=�POST|GET�>
 Name:<input type=�text� />
 </form>
-````
+```
 
  ![image](screenshots/spring-screenshots/21-controller.PNG)
 As indicated on the above image we can specify our service using different annotation.
@@ -109,27 +109,27 @@ This controller handles greeting request and put on the model the greeting messa
 ##Adding Thymeleaf in our project
 
 In order to use thyemleaf in our project we need to add thyemleaf dependency. We can add thyemleaf dependencies using theyemleaf starter.
-````
+```xml
 <dependency>
    <groupId>org.springframework.boot</groupId>
    <artifactId>spring-boot-starter-thymeleaf</artifactId>
 </dependency>
-````
+```
 This dependency will insert all theyemeleaf related dependencies in our project.
 
 After we add thyemeleaf dependency we need to create HTML file inside of template folder and we need to add theyme leaf name space as follows:
 
-````
+```html
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-````
+```
 
 
 ![image](screenshots/spring-screenshots/23-greetingpage.PNG)
 
 
-````
+```html
 <p th:text="${greeting}"></p>
-````
+```
 th in to spacify to use theymleaf tag from the namespace. Here we used text to display a text using greeting value from the model
 
 

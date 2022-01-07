@@ -28,7 +28,7 @@ Since maven is using older version of java by default, we have to add java 8 plu
 
 
 ### Add entity class
-````
+```java
 public class Speaker {
 
     String firstName;
@@ -50,19 +50,19 @@ public class Speaker {
         this.lastName = lastName;
     }
 }
-````
+```
 
 ### add an interface 
-````
+```java
 import java.util.List;
 
 public interface MockRepository {
     List<Speaker> getSpeakers();
 }
-````
+```
 
 ### implement an interface
-````
+```java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,11 +81,11 @@ public class HibernateRepository implements MockRepository {
         return speakers;
     }
 }
-````
+```
 
 ### Create Application class and run the application
 #### Implementing the repository
-````
+```java
 public class Application {
     public static void main(String[] args) {
         MockRepository repository = new HibernateRepository();
@@ -93,12 +93,12 @@ public class Application {
         System.out.println("First name: " + repository.getSpeakers().get(0).getFirstName());
     }
 }
-````
+```
 #### Out put
 ![image](screenshots/spring-screenshots/4-output.PNG)
 
 ### adding another implementation for mock H2 DB
-````
+```java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,10 +117,10 @@ public class H2Repository implements MockRepository {
         return speakers;
     }
 }
-````
+```
 
 ### run the app again and will get another result
-````
+```java
 
 public class Application {
     public static void main(String[] args) {
@@ -129,7 +129,7 @@ public class Application {
         System.out.println("First name: " + repository.getSpeakers().get(0).getFirstName());
     }
 }
-````
+```
 
 
 #### Out put
@@ -149,7 +149,7 @@ Note: you can use existing project for this tutorial or you can copy and rename 
 
 In order to use spring in our project, we need to add spring library to our project. One way of adding spring in our project is we can manually download the jar and add it to our class path, or we can us maven for downloading and adding it to our class path. 
 Add the following dependency in to your pom.xml
-````
+```xml
 <dependencies>
     <dependency>
         <groupId>org.springframework</groupId>
@@ -157,7 +157,7 @@ Add the following dependency in to your pom.xml
         <version>5.3.14</version>
     </dependency>
 </dependencies>
-````
+```
 ### maven install
 ![image](screenshots/spring-screenshots/6-maveninstall.PNG)
 
@@ -166,7 +166,7 @@ Add the following dependency in to your pom.xml
 ### Java based spring configuration
 #### Creating a bean
 Lets add a class for spring configuration as follows
-````
+```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -179,10 +179,10 @@ public class MySpringConfig {
     }
 
 }
-````
+```
 
 lets modify our application class to use new configuration that spring will manage and create an object for us instead of we create an object.
-````
+```java
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -198,18 +198,18 @@ public class Application {
         System.out.println("First name: " + repository.getSpeakers().get(0).getFirstName());
     }
 }
-````
+```
 
 we should be able to get the same result as it was before. 
 We can use custom name and we can use that name for instantiating an object as follows.
-````
+```java
 @Bean(name = "myRepository")// we can use custom name
 MockRepository getRepository() {
 
 
 ApplicationContext context = new AnnotationConfigApplicationContext(MySpringConfig.class);
 MockRepository repository = (MockRepository) context.getBean("myRepository");
-````
+```
 
 ### let recap what we have done on this module
 In this section we have used spring to create and manage object for us based on the configuration we provided. This allow us to inject the dependency and specify how the object should be created rather than we created it ourselves. One of the advantages of this is we can use configuration to inject different behaviors. Lets do some modification on configuration and let see the effect.
@@ -217,7 +217,7 @@ In this section we have used spring to create and manage object for us based on 
 Change the configuration 
 
 Old configuration:
-````
+```java
 @Configuration
 public class MySpringConfig {
 
@@ -227,9 +227,9 @@ public class MySpringConfig {
     }
 
 }
-````
+```
 New configuration:
-````
+```java
 @Configuration
 public class MySpringConfig {
 
@@ -239,7 +239,7 @@ public class MySpringConfig {
     }
 
 }
-````
+```
 Due to our changes the output changed to:
 Old output:
 
@@ -257,7 +257,7 @@ This way we can change the configuration and alter the behavior of the applicati
 - Constructor base injection  
 As the names indicates setter based injection, inject the dependency using setter method and constructor base injection injects the dependency using constructor. Let see some examples
 #### Setter injection
-````
+```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -277,11 +277,11 @@ public class MySpringConfig {
     }
 
 }
-````
+```
 #### Constructor injection
  
 To demonstrate constructor-based injection let’s create some classes.
-````
+```java
 public class Engine {
     private int cylinders;
     private String model;
@@ -299,8 +299,8 @@ public class Engine {
         return model;
     }
 }
-````
-````
+```
+```java
 
 public class Transmission {
     private String type;
@@ -313,10 +313,10 @@ public class Transmission {
         return type;
     }
 }
-````
+```
 
 let’s create a car class which requires the above two classes to be constructed.
-````
+```java
 public class Car {
 
     private Engine engine;
@@ -335,9 +335,9 @@ public class Car {
         return transmission;
     }
 }
-````
+```
 now lets use Engine and Transmission beans in the configuration to construct Car bean.
-````
+```java
 @Bean
 public Engine engine() {
     return new Engine("v8", 5);
@@ -352,23 +352,23 @@ public Transmission transmission() {
 public Car getCar() {
     return new Car(engine(),transmission());
 }
-````
+```
 Then lets use this class as follows: 
-````
+```java
 Car car = context.getBean("car", Car.class);
 System.out.println("number of cylinders:"+car.getEngine().getCylinders());
 System.out.println("transmission type:"+car.getTransmission().getType());
-````
+```
 The out put will be as follows:
-````
+
 number of cylinders:5
 transmission type:sliding
-```
+
 
 ### Scops in spring
 #### Singleton
 The default scop of spring object creation is singleton which means always it give us the same object when we ask spring to create for us. Lets demonstrate by creating two object and changing value on the first object after the creation and lets check if the second object get the modified version or the original version.
-````
+```java
 ApplicationContext context = new AnnotationConfigApplicationContext(MySpringConfig.class);
 MockRepository repository = (MockRepository) context.getBean("myRepository");
 repository.getSpeakers().get(0).setFirstName("Alemnesh");
@@ -376,24 +376,24 @@ repository.getSpeakers().get(0).setFirstName("Alemnesh");
 MockRepository repository2 = (MockRepository) context.getBean("myRepository");
 System.out.println("Size: " + repository2.getSpeakers().size());
 System.out.println("First name: " + repository2.getSpeakers().get(0).getFirstName());
-````
+```
 
 The out put is:
-````
+
 Size: 1
 First name: Alemnesh
-````
+
 The output shows that our change after spring created the object for us is reflected when spring created an object of us for the second time. 
 
 #### Prototype
 If we want to get new object always when we created an object we need to modify the scop of our bean as follows:
-````
+```java
 @Bean(name = "myRepository")//We can use custom name
 @Scope(value = "prototype")
 MockRepository getRepository() {
     return new H2Repository();
 }
-````
+```
 
 And lets run the same code and let see the output.
 Output:
@@ -413,11 +413,12 @@ Auto wiring is another way of creating a bean in spring. In order to use auto wi
 - @Component
 For example, I can use @Component as follows:
 
+```java
 @Component(value = "h2Repository")
 public class H2Repository implements MockRepository {
-
+```
 And we can use autwiring
-````
+```java
 @Configuration
 @ComponentScan("com")
 public class MySpringConfig {
@@ -426,9 +427,9 @@ public class MySpringConfig {
     MockRepository mockRepository;
 
 }
-````
+```
 It is important to do component scan to find the classes annotated as a component and spring create bean for us. If there are multiple implementations of the interface spring will confuse which implementation of the interface to use for object creation. One way to tell spring which implementation to use is to specify the type as follows:
-````
+```java
 @Configuration
 @ComponentScan("com")
 public class MySpringConfig {
@@ -437,9 +438,9 @@ public class MySpringConfig {
     MockRepository h2Repository;
 
 }
-````
+```
 Or
-````
+```java
 @Configuration
 @ComponentScan("com")
 public class MySpringConfig {
@@ -448,9 +449,9 @@ public class MySpringConfig {
     MockRepository hibernateRepository;
 
 }
-````
+```
 Spring will create appropriate object based on type or we can use @Qualifier annotation as follows:
-````
+```java
 @Configuration
 @ComponentScan("com")
 public class MySpringConfig {
@@ -461,14 +462,14 @@ public class MySpringConfig {
 
 }
 
-````
+```
 
 ### XML Configuration
 The other way of configuring spring is to use xml. Xml configuration is the first spring configuration mechanism, it helps to take out the configuration from the code and implement separation of concern. 
 In order to demo this concept, we need to create a new project and add the previous classes
  
 ![image](screenshots/spring-screenshots/7-xml-configuration.PNG)
-````
+```java
 public class Speaker {
 
     String firstName;
@@ -490,14 +491,14 @@ public class Speaker {
         this.lastName = lastName;
     }
 }
-````
+```
 
-````
+```java
 public interface MockRepository {
     List<Speaker> getSpeakers();
 }
-````
-````
+```
+```java
 public class H2Repository implements MockRepository {
     private ArrayList<Speaker> speakers;
 
@@ -513,8 +514,8 @@ public class H2Repository implements MockRepository {
         return speakers;
     }
 }
-````
-````
+```
+```java
 public class HibernateRepository implements MockRepository {
     private ArrayList<Speaker> speakers;
 
@@ -530,13 +531,13 @@ public class HibernateRepository implements MockRepository {
         return speakers;
     }
 }
-````
+```
 
 ####adding spring xml configuration
 Create xml file in resources folder as followes
 Resource->new->file->your file name example(springapp.xml)
 Add spring sechema name space as follows(you can find a sample here: 40. XML Schema-based configuration (spring.io) ) 
-````
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -547,13 +548,13 @@ Add spring sechema name space as follows(you can find a sample here: 40. XML Sch
     
 
 </beans>
-````
+```
 
 ![image](screenshots/spring-screenshots/8-spring-namespace.PNG)
 
 
 Now we can create a bean from xml configuration as follows:
-````
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -565,10 +566,10 @@ Now we can create a bean from xml configuration as follows:
     <bean name="hibernate" class="com.repo.HibernateRepository"></bean>
 
 </beans>
-````
+```
 Then we can test our configuration:
 
-````
+```java
 public class Application {
 
     public static void main(String[] args) {
@@ -587,17 +588,17 @@ public class Application {
 
     }
 }
-````
+```
 
 Output will be as follows:
-````
+
 H2 Repository
 Size: 1
 First name: Alemu  h2
 Hibernate Repository
 Size: 1
 First name: Alemu hibernate
-````
+
 Generally, we can do all sorts of configurations that we can do using annotation or java-based spring configuration; we can do it using xml configuration. Now a days most of applications uses the first two approaches (java based and annotation-based spring configuration) but xml configuration found on old applications. Further reading on this topic is found here: Spring - Bean Definition (tutorialspoint.com)
 
 Useful annotations 
