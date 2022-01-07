@@ -8,7 +8,7 @@ Spring MVC is a web development design pattern in that our application divided i
 
 ##Creating web application using Spring MVC
 ###Creating spring using maven
-<<<<reference to how to create spring mvc with maven>>>>
+-----------reference to how to create spring mvc with maven-----
 
 ###Creating spring project using spring initializer
 Spring initializer(https://start.spring.io)is a web platform that help us to generate initial spring application based on common configuration across spring community.
