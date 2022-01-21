@@ -44,4 +44,8 @@ If you are interested to learn these technologies these are the resource you mig
 
    * [For Video Tutorial]()
 
+* Spring:Spring MVC Tutorial
+
+   * [For Hands on Tutorial](https://github.com/ethioclicks/Java-Web-Development-Tutorials/blob/main/
+
 If anyone from the group knows what are the steps to be followed, technologies to learn to be a backend developer on .Net programing field or other backend development tool please let us Know.
